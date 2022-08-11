@@ -2,10 +2,14 @@ package com.psw.exam.board;
 
 import java.util.Scanner;
 
+// Todo 예시
+// [] /usr/article/detail 입력처리
+// [] /usr/article/detail 입력되면 가장 최근 게시물 정보 노출
 public class Main {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int articleLastId = 0;
+    Article lastArticle = null;
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
@@ -27,10 +31,25 @@ public class Main {
         articleLastId = id;
 
         Article article = new Article(id, title, body);
-
+        lastArticle = article;
         System.out.println("생성 된 게시물 객체 : " + article);
         System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.id);
       }
+      else if (cmd.equals("/usr/article/detail")) {
+
+        if( lastArticle == null ) {
+          System.out.println("게시물이 존재하지 않습니다.");
+          continue;
+        }
+
+        Article article = lastArticle;
+
+        System.out.println("== 게시물 상세내용 ==");
+        System.out.printf("번호 : %d\n", article.id);
+        System.out.printf("제목 : %s\n", article.title);
+        System.out.printf("내용 : %s\n", article.body);
+      }
+
       else {
         System.out.printf("입력 된 명령어 : %s\n", cmd);
       }
