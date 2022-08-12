@@ -1,5 +1,6 @@
 package com.psw.exam.board;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // Todo 예시
@@ -11,6 +12,12 @@ public class Main {
     int articleLastId = 0;
     Article lastArticle = null;
 
+    ArrayList<Article> articles = new ArrayList<>();
+
+    articles.add(new Article(1, "제목1", "내용1"));
+    articles.add(new Article(2, "제목2", "내용2"));
+    articles.add(new Article(3, "제목3", "내용3"));
+
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
@@ -20,6 +27,17 @@ public class Main {
 
       if(cmd.equals("exit")) {
         break;
+      }
+      else if (cmd.equals("/usr/article/list")) {
+        System.out.println("== 게시물 리스트 ==");
+        System.out.println("-------------------");
+        System.out.println("번호 / 제목 / 내용");
+
+        for ( Article article : articles) {
+          System.out.printf("%d / %s / %s\n", article.id, article.title, article.body);
+        }
+
+        System.out.println("-------------------");
       }
       else if(cmd.equals("/usr/article/write")) {
         System.out.println("== 게시물 등록 ==");
@@ -32,6 +50,9 @@ public class Main {
 
         Article article = new Article(id, title, body);
         lastArticle = article;
+
+
+
         System.out.println("생성 된 게시물 객체 : " + article);
         System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.id);
       }
