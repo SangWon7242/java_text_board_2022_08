@@ -19,6 +19,11 @@ public class Main {
 
     makeTestData(articles);
 
+    if ( articles.size() > 0) {
+      articleLastId = articles.get(articles.size() - 1).id;
+    }
+
+
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
@@ -52,8 +57,6 @@ public class Main {
 
         Article article = new Article(id, title, body);
         lastArticle = article;
-
-
 
         System.out.println("생성 된 게시물 객체 : " + article);
         System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.id);
