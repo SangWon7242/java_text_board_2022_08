@@ -19,8 +19,6 @@ public class Main {
 
     makeTestData(articles);
 
-
-
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
@@ -36,7 +34,8 @@ public class Main {
         System.out.println("-------------------");
         System.out.println("번호 / 제목 / 내용");
 
-        for ( Article article : articles) {
+        for ( int i = articles.size() - 1; i >= 0; i--) {
+          Article article = articles.get(i);
           System.out.printf("%d / %s / %s\n", article.id, article.title, article.body);
         }
 
