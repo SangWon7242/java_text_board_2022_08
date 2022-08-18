@@ -1,8 +1,6 @@
 package com.psw.exam.board;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
   static void makeTestData(List<Article> articles) {
@@ -31,10 +29,12 @@ public class Main {
       System.out.printf("명령) ");
       String cmd = sc.nextLine();
 
-      if(cmd.equals("exit")) {
+      Rq rq = new Rq(cmd);
+
+      if(rq.getUrlPath().equals("exit")) {
         break;
       }
-      else if (cmd.equals("/usr/article/list")) {
+      else if (rq.getUrlPath().equals("/usr/article/list")) {
         System.out.println("== 게시물 리스트 ==");
         System.out.println("-------------------");
         System.out.println("번호 / 제목 / 내용");
@@ -46,7 +46,7 @@ public class Main {
 
         System.out.println("-------------------");
       }
-      else if(cmd.equals("/usr/article/write")) {
+      else if(rq.getUrlPath().equals("/usr/article/write")) {
         System.out.println("== 게시물 등록 ==");
         System.out.printf("제목 : ");
         String title = sc.nextLine();
@@ -61,7 +61,7 @@ public class Main {
         System.out.println("생성 된 게시물 객체 : " + article);
         System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.id);
       }
-      else if (cmd.equals("/usr/article/detail")) {
+      else if (rq.getUrlPath().equals("/usr/article/detail")) {
 
         if( articles.isEmpty()) {
           System.out.println("게시물이 존재하지 않습니다.");
@@ -100,5 +100,58 @@ class Article {
   @Override
   public String toString() {
     return String.format("{id : %d, title : \"%s\", body : \"%s\"}", id, title, body);
+  }
+}
+
+class Rq {
+  private String url; // 접근제어자를 붙이는게 관례. 외부에서 접근 불가능.
+  private String urlPath;
+  private Map<String, String> params;
+  // 인스턴스 변수 -> 여기에 다 붙임
+
+  // 필드추가가능
+
+  // 수정가능
+  Rq(String url) {
+    this.url = url;
+    urlPath = Util.getUrlPathFromUrl(this.url);
+    params = Util.getParamsFromUrl(this.url);
+  }
+
+  // 수정가능, if문 금지
+  public Map<String, String> getParams() {
+    return params;
+  }
+
+  // 수정가능, if문 금지
+  public String getUrlPath() {
+    return urlPath;
+  }
+}
+
+// 수정불가능
+class Util {
+  static Map<String, String> getParamsFromUrl(String url) {
+    Map<String, String> params = new HashMap<>();
+    String[] urlBits = url.split("\\?", 2);
+
+    if (urlBits.length == 1) {
+      return params;
+    }
+
+    String queryStr = urlBits[1];
+    for (String bit : queryStr.split("&")) {
+      String[] bits = bit.split("=", 2);
+      if (bits.length == 1) {
+        continue;
+      }
+      params.put(bits[0], bits[1]);
+    }
+
+    return params;
+  }
+
+  static String getUrlPathFromUrl(String url) {
+    return url.split("\\?", 2)[0];
   }
 }
