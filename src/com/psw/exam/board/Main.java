@@ -39,13 +39,29 @@ public class Main {
         System.out.println("== 게시물 리스트 ==");
         System.out.println("-------------------");
         System.out.println("번호 / 제목 / 내용");
+        System.out.println("-------------------");
 
-        for ( int i = articles.size() - 1; i >= 0; i--) {
-          Article article = articles.get(i);
-          System.out.printf("%d / %s / %s\n", article.id, article.title, article.body);
+        boolean orderByIdDesc = true;
+
+        if( params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
+          orderByIdDesc = false;
         }
 
-        System.out.println("-------------------");
+        if( orderByIdDesc ) {
+          for ( int i = articles.size() - 1; i >= 0; i--) {
+            Article article = articles.get(i);
+            System.out.printf("%d / %s / %s\n", article.id, article.title, article.body);
+          }
+        }
+        else {
+          for(Article article : articles) {
+            System.out.printf("%d / %s / %s\n", article.id, article.title, article.body);
+          }
+        }
+
+
+
+
       }
       else if(rq.getUrlPath().equals("/usr/article/write")) {
         System.out.println("== 게시물 등록 ==");
