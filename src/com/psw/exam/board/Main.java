@@ -41,7 +41,25 @@ public class Main {
         System.out.println("번호 / 제목 / 내용");
         System.out.println("-------------------");
 
-        List<Article> sortedArticles = articles;
+        // 검색시작
+        List<Article> fileredArticles = articles;
+
+        if( params.containsKey("searchKeyword") ) {
+          String searchKeyword = params.get("searchKeyword");
+
+          fileredArticles = new ArrayList<>();
+
+          for( Article article : articles ) {
+            boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+
+            if ( matched ) {
+              fileredArticles.add(article);
+            }
+          }
+        }
+        // 검색 끝
+
+        List<Article> sortedArticles = fileredArticles;
 
         boolean orderByIdDesc = true;
 
