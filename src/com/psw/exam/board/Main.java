@@ -12,7 +12,7 @@ public class Main {
     }
   }
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = Container.sc;
 
     makeTestData();
 
@@ -37,13 +37,13 @@ public class Main {
        actionUsrArticleList(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")) {
-       actionUsrArticleWrite(sc);
+       actionUsrArticleWrite();
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")) {
         actionUsrArticleDetail(rq);
       }
       else if (rq.getUrlPath().equals("/usr/article/modify")) {
-        actionUsrArticleModify(rq, sc);
+        actionUsrArticleModify(rq);
       }
       else if (rq.getUrlPath().equals("/usr/article/delete")) {
         actionUsrArticleDelete(rq);
@@ -96,7 +96,7 @@ public class Main {
 
   }
 
-  private static void actionUsrArticleModify(Rq rq, Scanner sc) {
+  private static void actionUsrArticleModify(Rq rq) {
     Map<String, String> params = rq.getParams();
 
     if( params.containsKey("id") == false ) {
@@ -114,27 +114,34 @@ public class Main {
       return;
     }
 
-    Article article = articles.get(id - 1);
+    Article foundArticle = null;
 
-    if( id > articles.size() ) {
-      System.out.println("게시물이 존재하지 않습니다.");
+    for ( Article article : articles ) {
+      if (article.id == id) {
+        foundArticle = article;
+        break;
+      }
+    }
+
+    if( foundArticle == null ) {
+      System.out.printf("%d번 게시물이 존재하지 않습니다.\n", id);
       return;
     }
 
     System.out.printf("새 제목 : ");
-    article.title = sc.nextLine();
+    foundArticle.title = Container.sc.nextLine();
     System.out.printf("새 내용 : ");
-    article.body = sc.nextLine();
+    foundArticle.body = Container.sc.nextLine();
 
-    System.out.printf("%d번 게시물을 수정하였습니다.\n", article.id);
+    System.out.printf("%d번 게시물을 수정하였습니다.\n", id);
   }
 
-  private static void actionUsrArticleWrite(Scanner sc) {
+  private static void actionUsrArticleWrite() {
     System.out.println("== 게시물 등록 ==");
     System.out.printf("제목 : ");
-    String title = sc.nextLine();
+    String title = Container.sc.nextLine();
     System.out.printf("내용 : ");
-    String body = sc.nextLine();
+    String body = Container.sc.nextLine();
 
     int id = articleLastId + 1;
     articleLastId = id;
