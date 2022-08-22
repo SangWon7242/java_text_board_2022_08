@@ -3,7 +3,9 @@ package com.psw.exam.board;
 import java.util.*;
 
 public class Main {
-  static void makeTestData(List<Article> articles) {
+  static int articleLastId = 0;
+  static List<Article> articles = new ArrayList<>();
+  static void makeTestData() {
     for( int i = 0; i < 100; i++ ) {
       int id = i + 1;
       articles.add(new Article(id, "제목" + id, "내용" + id));
@@ -11,10 +13,8 @@ public class Main {
   }
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
-    int articleLastId = 0;
-    List<Article> articles = new ArrayList<>();
 
-    makeTestData(articles);
+    makeTestData();
 
     if ( articles.size() > 0) {
       articleLastId = articles.get(articles.size() - 1).id;
@@ -34,20 +34,19 @@ public class Main {
         break;
       }
       else if (rq.getUrlPath().equals("/usr/article/list")) {
-       actionUsrArticleList(rq, articles);
+       actionUsrArticleList(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")) {
-       actionUsrArticleWrite(sc, articleLastId, articles);
-       articleLastId++;
+       actionUsrArticleWrite(sc);
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")) {
-        actionUsrArticleDetail(rq, articles);
+        actionUsrArticleDetail(rq);
       }
       else if (rq.getUrlPath().equals("/usr/article/modify")) {
-        actionUsrArticleModify(rq, articles, sc);
+        actionUsrArticleModify(rq, sc);
       }
       else if (rq.getUrlPath().equals("/usr/article/delete")) {
-        actionUsrArticleDelete(rq, articles);
+        actionUsrArticleDelete(rq);
       }
       else {
         System.out.printf("입력 된 명령어 : %s\n", cmd);
@@ -58,7 +57,7 @@ public class Main {
     sc.close();
   }
 
-  private static void actionUsrArticleDelete(Rq rq, List<Article> articles) {
+  private static void actionUsrArticleDelete(Rq rq) {
     Map<String, String> params = rq.getParams();
 
     if( params.containsKey("id") == false ) {
@@ -97,7 +96,7 @@ public class Main {
 
   }
 
-  private static void actionUsrArticleModify(Rq rq, List<Article> articles, Scanner sc) {
+  private static void actionUsrArticleModify(Rq rq, Scanner sc) {
     Map<String, String> params = rq.getParams();
 
     if( params.containsKey("id") == false ) {
@@ -130,7 +129,7 @@ public class Main {
     System.out.printf("%d번 게시물을 수정하였습니다.\n", article.id);
   }
 
-  private static void actionUsrArticleWrite(Scanner sc, int articleLastId, List<Article> articles) {
+  private static void actionUsrArticleWrite(Scanner sc) {
     System.out.println("== 게시물 등록 ==");
     System.out.printf("제목 : ");
     String title = sc.nextLine();
@@ -138,6 +137,7 @@ public class Main {
     String body = sc.nextLine();
 
     int id = articleLastId + 1;
+    articleLastId = id;
 
     Article article = new Article(id, title, body);
 
@@ -146,7 +146,7 @@ public class Main {
     System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.id);
   }
 
-  private static void actionUsrArticleDetail(Rq rq, List<Article> articles) {
+  private static void actionUsrArticleDetail(Rq rq) {
     Map<String, String> params = rq.getParams();
 
     if( params.containsKey("id") == false ) {
@@ -177,7 +177,7 @@ public class Main {
     System.out.printf("내용 : %s\n", article.body);
   }
 
-  private static void actionUsrArticleList(Rq rq, List<Article> articles) {
+  private static void actionUsrArticleList(Rq rq) {
     System.out.println("== 게시물 리스트 ==");
     System.out.println("-------------------");
     System.out.println("번호 / 제목 / 내용");
