@@ -3,13 +3,18 @@ package com.psw.exam.board;
 import java.util.*;
 
 public class Main {
-  static int articleLastId = 0;
-  static List<Article> articles = new ArrayList<>();
+  static int articleLastId;
+  static List<Article> articles;
   static void makeTestData() {
     for( int i = 0; i < 100; i++ ) {
       int id = i + 1;
       articles.add(new Article(id, "제목" + id, "내용" + id));
     }
+  }
+
+  static {
+    articleLastId = 0;
+    articles = new ArrayList<>();
   }
   public static void main(String[] args) {
     Scanner sc = Container.sc;
