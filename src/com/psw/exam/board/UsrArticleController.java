@@ -27,22 +27,12 @@ public class UsrArticleController {
   }
 
   public void actionDelete(Rq rq) {
-    Map<String, String> params = rq.getParams();
+   int id = rq.getIntParam("id", 0);
 
-    if (params.containsKey("id") == false) {
-      System.out.println("id를 입력해주세요.");
-      return;
-    }
-
-    int id = 0;
-
-    try {
-      id = Integer.parseInt(params.get("id"));
-    } catch (NumberFormatException e) {
-      System.out.println("id를 정수 형태롤 입력해주세요.");
-      return;
-    }
-
+   if ( id == 0) {
+     System.out.println("id를 올바르게 입력해주세요.");
+     return;
+   }
 
     Article foundArticle = null;
 
@@ -65,19 +55,10 @@ public class UsrArticleController {
   }
 
   public void actionModify(Rq rq) {
-    Map<String, String> params = rq.getParams();
+    int id = rq.getIntParam("id", 0);
 
-    if (params.containsKey("id") == false) {
-      System.out.println("id를 입력해주세요.");
-      return;
-    }
-
-    int id = 0;
-
-    try {
-      id = Integer.parseInt(params.get("id"));
-    } catch (NumberFormatException e) {
-      System.out.println("id를 정수 형태롤 입력해주세요.");
+    if ( id == 0) {
+      System.out.println("id를 올바르게 입력해주세요.");
       return;
     }
 
@@ -121,19 +102,10 @@ public class UsrArticleController {
   }
 
   public void actionDetail(Rq rq) {
-    Map<String, String> params = rq.getParams();
+    int id = rq.getIntParam("id", 0);
 
-    if (params.containsKey("id") == false) {
-      System.out.println("id를 입력해주세요.");
-      return;
-    }
-
-    int id = 0;
-
-    try {
-      id = Integer.parseInt(params.get("id"));
-    } catch (NumberFormatException e) {
-      System.out.println("id를 정수 형태롤 입력해주세요.");
+    if ( id == 0) {
+      System.out.println("id를 올바르게 입력해주세요.");
       return;
     }
 
@@ -157,19 +129,22 @@ public class UsrArticleController {
     System.out.println("-------------------");
 
     Map<String, String> params = rq.getParams();
+
     // 검색시작
     List<Article> fileredArticles = articles;
 
     if (params.containsKey("searchKeyword")) {
-      String searchKeyword = params.get("searchKeyword");
+      String searchKeyword = rq.getParam("searchKeyword", "");
 
       fileredArticles = new ArrayList<>();
 
-      for (Article article : articles) {
-        boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+      if ( searchKeyword.length() > 0 ) {
+        for (Article article : articles) {
+          boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
 
-        if (matched) {
-          fileredArticles.add(article);
+          if (matched) {
+            fileredArticles.add(article);
+          }
         }
       }
     }
@@ -177,7 +152,9 @@ public class UsrArticleController {
 
     List<Article> sortedArticles = fileredArticles;
 
-    boolean orderByIdDesc = true;
+    String orderBy = rq.getParam("orderBy", "idDesc");
+
+    boolean orderByIdDesc = orderBy.equals("idDesc");
 
     if (params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
       orderByIdDesc = false;
