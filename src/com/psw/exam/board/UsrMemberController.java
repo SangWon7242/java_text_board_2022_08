@@ -93,8 +93,6 @@ public class UsrMemberController {
   public void actionLogout(Rq rq) {
    rq.removeSessionAttr("loginedMember");
 
-   if(rq.get)
-
    System.out.println("로그아웃 되었습니다.");
   }
 }
