@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class App {
-  void main() {
+  void run() {
     Scanner sc = Container.sc;
 
     System.out.println("== 게시판 v 0.1 ==");
@@ -31,6 +31,8 @@ public class App {
         Container.usrArticleController.actionDelete(rq);
       } else if (rq.getUrlPath().equals("/usr/member/join")) {
         Container.usrMemberController.actionJoin();
+      } else if (rq.getUrlPath().equals("/usr/member/login")) {
+        Container.usrMemberController.actionLogin(rq);
       } else {
         System.out.printf("입력 된 명령어 : %s\n", cmd);
       }
