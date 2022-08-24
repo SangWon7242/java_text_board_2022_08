@@ -46,4 +46,10 @@ public class Rq {
   public String getUrlPath() {
     return urlPath;
   }
+
+  public void setSessionAttr(String key, Member value) {
+    Session session = Container.getSession();
+
+    session.setAttribute(key, value);
+  }
 }
