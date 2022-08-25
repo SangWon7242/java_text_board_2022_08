@@ -1,5 +1,9 @@
 package com.psw.exam.board;
 
+import com.psw.exam.board.container.Container;
+import com.psw.exam.board.dto.Member;
+import com.psw.exam.board.util.Util;
+
 import java.util.Map;
 
 public class Rq {
@@ -11,7 +15,7 @@ public class Rq {
   // 필드추가가능
 
   // 수정가능
-  Rq(String url) {
+  public Rq(String url) {
     this.url = url;
     urlPath = Util.getUrlPathFromUrl(this.url);
     params = Util.getParamsFromUrl(this.url);
