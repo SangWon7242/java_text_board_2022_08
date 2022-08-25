@@ -15,18 +15,19 @@ public class App {
     System.out.println("== 프로그램 시작 ==");
 
     while (true) {
-      Member loginedMember = (Member) session.getAttribute("loginedMember");
+      Rq rq = new Rq();
 
       String promptName = "명령어";
 
-      if (loginedMember != null) {
+      if ( rq.isLogined() ) {
+        Member loginedMember = rq.getLoginedMember();
         promptName = loginedMember.getLoginId();
       }
 
       System.out.printf("%s ) ", promptName);
       String cmd = sc.nextLine();
 
-      Rq rq = new Rq(cmd);
+      rq.setCommand(cmd);
       Map<String, String> params = rq.getParams();
 
       if (rq.getUrlPath().equals("exit")) {

@@ -10,11 +10,9 @@ public class Rq {
   private String url; // 접근제어자를 붙이는게 관례. 외부에서 접근 불가능.
   private String urlPath;
   private Map<String, String> params;
-  // 인스턴스 변수 -> 여기에 다 붙임
+  public Rq() {
 
-  // 필드추가가능
-
-  // 수정가능
+  }
   public Rq(String url) {
     this.url = url;
     urlPath = Util.getUrlPathFromUrl(this.url);
@@ -51,6 +49,16 @@ public class Rq {
     return urlPath;
   }
 
+  public Member getLoginedMember() {
+    return (Member) getSessionAttr("loginedMember");
+  }
+
+  private Object getSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    return session.getAttribute(key);
+  }
+
   public void setSessionAttr(String key, Member value) {
     Session session = Container.getSession();
 
@@ -61,5 +69,28 @@ public class Rq {
     Session session = Container.getSession();
 
     session.removeAttribute(key);
+  }
+
+  public void setCommand(String url) {
+    urlPath = Util.getUrlPathFromUrl(url);
+    params = Util.getParamsFromUrl(url);
+  }
+
+  public boolean isLogined() {
+    return hasSessionAttr("loginedMember");
+  }
+
+  public boolean hasSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    return session.hasAttribute(key);
+  }
+
+  public void logout() {
+    removeSessionAttr("loginedMember");
+  }
+
+  public void login(Member member) {
+    setSessionAttr("loginedMember", member);
   }
 }
