@@ -3,6 +3,7 @@ package com.psw.exam.board.controller;
 import com.psw.exam.board.dto.Article;
 import com.psw.exam.board.Rq;
 import com.psw.exam.board.container.Container;
+import com.psw.exam.board.service.ArticleService;
 import com.psw.exam.board.util.Util;
 
 import java.util.ArrayList;
@@ -10,25 +11,18 @@ import java.util.List;
 import java.util.Map;
 
 public class UsrArticleController {
-  private int articleLastId;
+  private ArticleService articleService;
   private List<Article> articles;
 
   public UsrArticleController() {
-    articleLastId = 0;
-    articles = new ArrayList<>();
+    articleService = Container.getArticleService();
+    articles = articleService.getArticles();
 
     makeTestData();
-
-    if (articles.size() > 0) {
-      articleLastId = articles.get(articles.size() - 1).getId();
-    }
   }
 
   void makeTestData() {
-    for (int i = 0; i < 100; i++) {
-      int id = i + 1;
-      articles.add(new Article(id, "제목" + id, "내용" + id));
-    }
+    articleService.makeTestData();
   }
 
   public void actionDelete(Rq rq) {
@@ -53,7 +47,7 @@ public class UsrArticleController {
       return;
     }
 
-    articles.remove(foundArticle);
+    articleService.deleteArticleById(id);
 
     System.out.printf("%d번 게시물을 삭제하였습니다.\n", id);
 
@@ -96,14 +90,9 @@ public class UsrArticleController {
     System.out.printf("내용 : ");
     String body = Container.getSc().nextLine();
 
-    int id = articleLastId + 1;
-    articleLastId = id;
+    int id = articleService.write(title, body);
 
-    Article article = new Article(id, title, body);
-
-    articles.add(article);
-    System.out.println("생성 된 게시물 객체 : " + article);
-    System.out.printf("%d번 게시물이 입력 되었습니다.\n", article.getId());
+    System.out.printf("%d번 게시물이 입력 되었습니다.\n", id);
   }
 
   public void actionDetail(Rq rq) {
