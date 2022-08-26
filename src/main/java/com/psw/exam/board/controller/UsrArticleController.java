@@ -103,9 +103,9 @@ public class UsrArticleController {
       return;
     }
 
-    Article article = articles.get(id - 1);
+    Article article = articleService.getArticleById(id);
 
-    if (id > articles.size()) {
+    if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
