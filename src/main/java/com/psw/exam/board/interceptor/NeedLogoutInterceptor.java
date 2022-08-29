@@ -6,7 +6,7 @@ public class NeedLogoutInterceptor implements Interceptor {
 
   @Override
   public boolean run(Rq rq) {
-    if(rq.isLogined() == false) {
+    if (rq.isLogined() == false) {
       return true;
     }
 

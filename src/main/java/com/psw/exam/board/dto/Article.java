@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Article {
   private int id;
+  private int bordId;
   private String title;
   private String body;
 }
