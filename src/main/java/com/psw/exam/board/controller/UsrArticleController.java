@@ -3,7 +3,9 @@ package com.psw.exam.board.controller;
 import com.psw.exam.board.dto.Article;
 import com.psw.exam.board.Rq;
 import com.psw.exam.board.container.Container;
+import com.psw.exam.board.dto.Board;
 import com.psw.exam.board.service.ArticleService;
+import com.psw.exam.board.service.BoardService;
 import com.psw.exam.board.util.Util;
 
 import java.util.ArrayList;
@@ -12,10 +14,13 @@ import java.util.Map;
 
 public class UsrArticleController {
   private ArticleService articleService;
-  private List<Article> articles;
+  List<Article> articles;
+  private BoardService boardService;
 
   public UsrArticleController() {
     articleService = Container.getArticleService();
+    boardService = Container.getBoardService();
+    articles = articleService.getArticles();
     makeTestData();
   }
 
@@ -82,7 +87,23 @@ public class UsrArticleController {
   }
 
   public void actionWrite(Rq rq) {
-    System.out.println("== 게시물 등록 ==");
+
+    int boardId = rq.getIntParam("boardId", 0);
+
+    if( boardId == 0) {
+      System.out.println("boardId를 입력해주세요.");
+      return;
+    }
+
+    Board board = boardService.getBoardById(boardId);
+
+    if (board == null ){
+      System.out.println("존재하지 않는 게시판 번호입니다.");
+      return;
+    }
+
+    System.out.printf("== %s 게시물 글 작성 ==\n", board.getName());
+
     System.out.printf("제목 : ");
     String title = Container.getSc().nextLine();
     System.out.printf("내용 : ");
@@ -125,7 +146,7 @@ public class UsrArticleController {
 
     Map<String, String> params = rq.getParams();
 
-    List<Article> articles = articleService.getArticles();
+
 
     // 검색시작
     List<Article> fileredArticles = articles;

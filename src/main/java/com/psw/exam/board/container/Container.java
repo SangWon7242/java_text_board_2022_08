@@ -6,8 +6,10 @@ import com.psw.exam.board.controller.UsrMemberController;
 import com.psw.exam.board.interceptor.NeedLoginInterceptor;
 import com.psw.exam.board.interceptor.NeedLogoutInterceptor;
 import com.psw.exam.board.repository.ArticleRepository;
+import com.psw.exam.board.repository.BoardRepository;
 import com.psw.exam.board.repository.MemberRepository;
 import com.psw.exam.board.service.ArticleService;
+import com.psw.exam.board.service.BoardService;
 import com.psw.exam.board.service.MemberService;
 import lombok.Getter;
 
@@ -18,8 +20,11 @@ public class Container {
   private static Scanner sc;
   @Getter
   private static Session session;
+
   @Getter
   private static MemberRepository memberRepository;
+  @Getter
+  private static BoardRepository boardRepository;
   @Getter
   private static ArticleRepository articleRepository;
 
@@ -27,11 +32,14 @@ public class Container {
   private static NeedLoginInterceptor needLoginInterceptor;
   @Getter
   private static NeedLogoutInterceptor needLogoutInterceptor;
-  @Getter
-  private static ArticleService articleService;
 
   @Getter
   private static MemberService memberService;
+  @Getter
+  private static BoardService boardService;
+  @Getter
+  private static ArticleService articleService;
+
   @Getter
   private static UsrArticleController usrArticleController;
   @Getter
@@ -41,14 +49,17 @@ public class Container {
     sc = new Scanner(System.in);
     session = new Session();
 
-    articleRepository = new ArticleRepository();
     memberRepository = new MemberRepository();
+    boardRepository = new BoardRepository();
+    articleRepository = new ArticleRepository();
 
     needLoginInterceptor = new NeedLoginInterceptor();
     needLogoutInterceptor = new NeedLogoutInterceptor();
 
-    articleService = new ArticleService();
     memberService = new MemberService();
+    boardService = new BoardService();
+    articleService = new ArticleService();
+
 
     usrArticleController = new UsrArticleController();
     usrMemberController = new UsrMemberController();
