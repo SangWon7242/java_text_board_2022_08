@@ -81,14 +81,16 @@ public class UsrArticleController {
     System.out.printf("%d번 게시물을 수정하였습니다.\n", id);
   }
 
-  public void actionWrite() {
+  public void actionWrite(Rq rq) {
     System.out.println("== 게시물 등록 ==");
     System.out.printf("제목 : ");
     String title = Container.getSc().nextLine();
     System.out.printf("내용 : ");
     String body = Container.getSc().nextLine();
 
-    int id = articleService.write(1, title, body);
+    int loginedMemberId = rq.getLoginedMemberId();
+
+    int id = articleService.write(1, loginedMemberId, title, body);
 
     System.out.printf("%d번 게시물이 입력 되었습니다.\n", id);
   }
@@ -110,6 +112,7 @@ public class UsrArticleController {
 
     System.out.println("== 게시물 상세내용 ==");
     System.out.printf("번호 : %d\n", article.getId());
+    System.out.printf("작성자 : %d\n", article.getMemberId());
     System.out.printf("제목 : %s\n", article.getTitle());
     System.out.printf("내용 : %s\n", article.getBody());
   }
@@ -121,6 +124,8 @@ public class UsrArticleController {
     System.out.println("-------------------");
 
     Map<String, String> params = rq.getParams();
+
+    List<Article> articles = articleService.getArticles();
 
     // 검색시작
     List<Article> fileredArticles = articles;
