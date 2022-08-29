@@ -6,16 +6,21 @@ import com.psw.exam.board.interceptor.Interceptor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class App {
-  void run() {
+  private void forTestLoginByMemberId(int id) {
+    Member member = Container.getMemberService().getMemberById(id);
+    new Rq().login(member);
+  }
+
+  public void run() {
     Scanner sc = Container.getSc();
-    Session session = Container.getSession();
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
+
+    forTestLoginByMemberId(1);
 
     while (true) {
       Rq rq = new Rq();

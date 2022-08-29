@@ -13,6 +13,15 @@ public class MemberRepository {
     members = new ArrayList<>();
   }
 
+  public Member getMemberById(int id) {
+    for(Member member : members ) {
+      if(member.getId() == id) {
+        return member;
+      }
+    }
+    return null;
+  }
+
   public int join(String loginId, String loginPw) {
     int id = lastId + 1;
     Member member = new Member(id, loginId, loginPw);
