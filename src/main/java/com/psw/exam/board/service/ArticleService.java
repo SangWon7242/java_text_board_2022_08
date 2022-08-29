@@ -1,5 +1,6 @@
 package com.psw.exam.board.service;
 
+import com.psw.exam.board.container.Container;
 import com.psw.exam.board.dto.Article;
 import com.psw.exam.board.repository.ArticleRepository;
 

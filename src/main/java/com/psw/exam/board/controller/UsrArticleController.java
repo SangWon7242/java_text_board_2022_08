@@ -16,8 +16,6 @@ public class UsrArticleController {
 
   public UsrArticleController() {
     articleService = Container.getArticleService();
-    articles = articleService.getArticles();
-
     makeTestData();
   }
 
