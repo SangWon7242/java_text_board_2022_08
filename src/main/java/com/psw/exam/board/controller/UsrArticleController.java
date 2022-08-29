@@ -141,12 +141,10 @@ public class UsrArticleController {
   public void actionList(Rq rq) {
     System.out.println("== 게시물 리스트 ==");
     System.out.println("-------------------");
-    System.out.println("번호 / 제목 / 내용");
+    System.out.println("번호 / 제목 / 내용 / 현재날짜");
     System.out.println("-------------------");
 
     Map<String, String> params = rq.getParams();
-
-
 
     // 검색시작
     List<Article> fileredArticles = articles;
@@ -183,7 +181,7 @@ public class UsrArticleController {
     }
 
     for (Article article : sortedArticles) {
-      System.out.printf("%d / %s / %s\n", article.getId(), article.getTitle(), article.getBody());
+      System.out.printf("%d / %s / %s / %s\n", article.getId(), article.getTitle(), article.getBody(), article.getRegDate());
     }
 
   }
